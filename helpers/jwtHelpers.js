@@ -5,8 +5,8 @@ require("dotenv").config();
 exports.generateToken = (userInfo) => {
   try {
     const payload = {
-      phone: userInfo.phone,
-      userId: userInfo.id
+      Email: userInfo.Email,
+      id: userInfo.id
     };
 
     console.log("payload", payload);

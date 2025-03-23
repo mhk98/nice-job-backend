@@ -1,0 +1,72 @@
+module.exports = (sequelize, DataTypes) => {
+    const JobPost = sequelize.define(
+      "JobPost",
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+          allowNull: false,
+        },
+
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+          },
+          
+        email: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+
+        // tags: {
+        //   type: DataTypes.JSON, // Store as an array in JSON format
+        //   allowNull: false,
+        // },        
+  
+        tags: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          get() {
+            return this.getDataValue("tags") ? JSON.parse(this.getDataValue("tags")) : [];
+          },
+          set(value) {
+            this.setDataValue("tags", JSON.stringify(value));
+          },
+        },
+        
+        type: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        experience: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        min_salary: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        max_salary: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        region: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        location: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+  
+        logo: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+      },
+      
+    );
+  
+    return JobPost;
+  };

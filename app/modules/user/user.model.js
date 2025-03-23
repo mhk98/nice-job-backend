@@ -5,20 +5,13 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
   const User = sequelize.define(
     "User",
     {
-      Id: {
+      id: {
         type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true,
         allowNull: true,
       },
-      FirstName: {
-        type: DataTypes.STRING(64),
-        allowNull: true,
-      },
-      LastName: {
-        type: DataTypes.STRING(64),
-        allowNull: true,
-      },
+      
       Email: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -28,36 +21,13 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true, 
       },
-      Address: {
-        type: DataTypes.STRING(64),
-        allowNull: true,
-      },
-      Phone: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      City: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      PostalCode: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
-      Country: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+    
 
       role: {
         type: DataTypes.STRING,
-        defaultValue: "user",
+        defaultValue: "candidate",
         validate: {
-          isIn: [['user', 'admin', 'super_admin']],
+          isIn: [['candidate', 'employer']],
         },
       },
     },

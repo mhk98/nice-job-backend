@@ -9,42 +9,50 @@ const ApiError = require("../../../error/ApiError");
 
 
 
-
 const login = async (data) => {
-  const { phone } = data;
+
+  const { Email, Password } = data;
+  // console.log(buyerData);
 
   // Validate request data
-  if (!phone) {
-    throw new Error("Phone number is required.");
+  if (!Email || !Password) {
+    throw new ApiError(400, "Email number is required.")
   }
 
-  // Check if user exists in the database
-  let user = await User.findOne({ where: { Phone: phone } });
-
+  // Find user by email
+  const user = await User.findOne({ where: { Email } });
   if (!user) {
-    // If user doesn't exist, create a new user
-    user = await User.create({ Phone: phone });
+    throw new ApiError(404, "No user found with this email. Please create an account first.");
   }
 
-  console.log('userInfo', user.Id)
+  // Validate password
+  const isPasswordValid = bcrypt.compareSync(Password, user.Password);
+  if (!isPasswordValid) {
+    throw new ApiError(401, "Incorrect password or email.")
+  }
+
   // Generate JWT access token
-  const accessToken = generateToken({ phone: user.Phone, id: user.Id}); // Pass only necessary user info to the token
+  const accessToken = generateToken(user)
 
+  // Set access token in cookie
+  const cookieOptions = {
+    secure: process.env.NODE_ENV === "production", // Fixed environment check
+    httpOnly: true,
+  };
+  // res.cookie("accessToken", accessToken, cookieOptions);
   
+ const result = {
+  accessToken, user
+ }
 
-  // Return the access token and user info
-  return accessToken;
-  // return {
-  //   accessToken,
-  //   user,
-  // };
+  return result
 };
 
 
 
-const register = async (userData) => {
+const register = async (data) => {
 
-  const {Email } = userData;
+  const {Email } = data;
  
     const isUserExist = await User.findOne({
       where: { Email: Email },
@@ -54,7 +62,7 @@ const register = async (userData) => {
       throw new ApiError(409, "User already exist")
     }
 
-    const result = await User.create(userData);
+    const result = await User.create(data);
 
 
   return result
