@@ -12,6 +12,28 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
         allowNull: true,
       },
       
+      FirstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+        validate: {
+          len: [2, 50], // Minimum 2, Maximum 50 characters
+        },
+      },
+      LastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+        validate: {
+          len: [2, 50], // Minimum 2, Maximum 50 characters
+        },
+      },
+      
+      Email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+      },
       Email: {
         type: DataTypes.STRING,
         allowNull: true,
