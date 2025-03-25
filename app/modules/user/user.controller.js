@@ -28,11 +28,15 @@ const login = catchAsync(async (req, res) => {
 })
 
 const register = catchAsync(async (req, res) => {
-  const { Email, Password } = req.body;
-console.log(req.body)
+  const {FirstName, LastName, Email, Password, Role } = req.body;
+// console.log(req.body)
 const data = {
-  Email, Password
+  FirstName, LastName,
+  Email, Password, Role,
+  Image: req.file === undefined ? undefined : req.file.path,
 }
+
+console.log("Registerdata", data)
   const result = await UserService.register(data);
   sendResponse(res, {
       statusCode: 200,

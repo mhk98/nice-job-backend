@@ -31,13 +31,13 @@ const uploadSingle = multer({
   storage: storage,
   limits: { fileSize: 5000000 }, // 5 MB limit
   fileFilter: fileFilter,
-}).single("default_image");
+}).single("Image");
 
 const uploadMultiple = multer({
   storage: storage,
   limits: { fileSize: 5000000 }, // 5 MB limit per file
   fileFilter: fileFilter,
-}).array("gallery_images", 10); // Allow up to 10 files
+}).array("Images", 10); // Allow up to 10 files
 
 
 
@@ -51,5 +51,5 @@ const upload = multer({
 module.exports = {
   uploadSingle,
   uploadMultiple,
-  upload
+
 };

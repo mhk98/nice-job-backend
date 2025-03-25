@@ -28,29 +28,26 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
           len: [2, 50], // Minimum 2, Maximum 50 characters
         },
       },
+      Image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: false,
+      },
       
       Email: {
         type: DataTypes.STRING,
-        allowNull: true,
-        unique: true,
-      },
-      Email: {
-        type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         unique: true,
       },
       Password: {
         type: DataTypes.STRING,
-        allowNull: true, 
+        allowNull: false, 
       },
     
 
-      role: {
+      Role: {
         type: DataTypes.STRING,
-        defaultValue: "candidate",
-        validate: {
-          isIn: [['candidate', 'employer']],
-        },
+        allowNull: false, 
       },
     },
     {

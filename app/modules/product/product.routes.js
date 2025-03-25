@@ -8,10 +8,10 @@ const router = require("express").Router();
 
 router.post(
     "/create",
-    upload.fields([
-      { name: "default_image", maxCount: 1 }, // Single image
-      { name: "gallery_images", maxCount: 10 }, // Multiple images (max 10)
-    ]),
+    // upload.fields([
+    //   { name: "default_image", maxCount: 1 }, // Single image
+    //   { name: "gallery_images", maxCount: 10 }, // Multiple images (max 10)
+    // ]),
     ProductController.insertIntoDB
   );
   
