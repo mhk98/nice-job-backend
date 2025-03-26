@@ -33,7 +33,7 @@ const register = catchAsync(async (req, res) => {
 const data = {
   FirstName, LastName,
   Email, Password, Role,
-  Image: req.file === undefined ? undefined : req.file.path,
+  image: req.file === undefined ? undefined : req.file.path,
 }
 
 console.log("Registerdata", data)

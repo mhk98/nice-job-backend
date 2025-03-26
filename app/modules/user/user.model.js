@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
           len: [2, 50], // Minimum 2, Maximum 50 characters
         },
       },
-      Image: {
+      image: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,

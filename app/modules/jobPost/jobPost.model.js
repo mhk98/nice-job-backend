@@ -40,14 +40,14 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         experience: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        minSalary: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        min_salary: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        max_salary: {
+        maxSalary: {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
   
-        logo: {
+        image: {
           type: DataTypes.STRING,
           allowNull: false,
         },

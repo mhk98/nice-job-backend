@@ -31,13 +31,13 @@ const uploadSingle = multer({
   storage: storage,
   limits: { fileSize: 5000000 }, // 5 MB limit
   fileFilter: fileFilter,
-}).single("Image");
+}).single("image");
 
 const uploadMultiple = multer({
   storage: storage,
   limits: { fileSize: 5000000 }, // 5 MB limit per file
   fileFilter: fileFilter,
-}).array("Images", 10); // Allow up to 10 files
+}).array("images", 10); // Allow up to 10 files
 
 
 
