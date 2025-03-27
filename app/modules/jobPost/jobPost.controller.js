@@ -11,7 +11,36 @@ const JobPostService = require("./jobPost.service");
 
 
 const insertIntoDB = catchAsync(async (req, res) => {
-  const result = await JobPostService.insertIntoDB(req.body);
+
+  const { 
+    title,
+    email,
+    tags,
+    type,
+    experience,
+    minSalary,
+    maxSalary,
+    region,
+    location,
+    content
+  } = req.body;
+
+  const data = { 
+    title,
+    email,
+    tags,
+    type,
+    experience,
+    minSalary,
+    maxSalary,
+    region,
+    location,
+    content,
+  image: req.file === undefined ? undefined : req.file.path,
+
+  }
+
+  const result = await JobPostService.insertIntoDB(data);
  
   sendResponse(res, {
       statusCode: 200,

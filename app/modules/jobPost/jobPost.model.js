@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         experience: {
-          type: DataTypes.STRING,
+        type: DataTypes.STRING,
           allowNull: false,
         },
         minSalary: {
@@ -57,6 +57,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         location: {
           type: DataTypes.STRING,
+          allowNull: false,
+        },
+        content: {
+          type: DataTypes.TEXT,
           allowNull: false,
         },
   
