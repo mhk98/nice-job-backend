@@ -1,8 +1,8 @@
 const catchAsync = require("../../../shared/catchAsync");
 const sendResponse = require("../../../shared/sendResponse");
 const pick = require("../../../shared/pick");
-const BrandService = require("./brand.service");
-const { BrandFilterAbleFileds } = require("./brand.constants");
+const ProfileService = require("./profile.service");
+const { ProfileFilterAbleFileds } = require("./profile.constants");
 
 
 
@@ -12,7 +12,35 @@ const { BrandFilterAbleFileds } = require("./brand.constants");
 
 
 const insertIntoDB = catchAsync(async (req, res) => {
-  const result = await BrandService.insertIntoDB(req.body);
+
+  const { 
+    title,
+    name,
+    age,
+    currentSalary,
+    expectedSalary,
+    employmentFields,
+    educationFields,
+    languages,
+    skills,
+
+  } = req.body;
+
+  const data = { 
+    title,
+    name,
+    age,
+    currentSalary,
+    expectedSalary,
+    employmentFields,
+    educationFields,
+    languages,
+    skills,
+  image: req.file === undefined ? undefined : req.file.path,
+
+  }
+
+  const result = await ProfileService.insertIntoDB(data);
  
   sendResponse(res, {
       statusCode: 200,
@@ -25,12 +53,12 @@ const insertIntoDB = catchAsync(async (req, res) => {
 
 const getAllFromDB = catchAsync(async (req, res) => {
 
-  const filters = pick(req.query, BrandFilterAbleFileds);
+  const filters = pick(req.query, ProfileFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   console.log('filters', req.query)
 
 
-  const result = await BrandService.getAllFromDB(filters, options);
+  const result = await ProfileService.getAllFromDB(filters, options);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -43,7 +71,7 @@ const getAllFromDB = catchAsync(async (req, res) => {
 
 const getDataById = catchAsync(async (req, res) => {
 
-  const result = await BrandService.getDataById(req.params.id);
+  const result = await ProfileService.getDataById(req.params.id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -55,7 +83,7 @@ const getDataById = catchAsync(async (req, res) => {
 
 const updateOneFromDB = catchAsync(async (req, res) => {
 const {id} = req.params;
-  const result = await BrandService.updateOneFromDB(id, req.body);
+  const result = await ProfileService.updateOneFromDB(id, req.body);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -67,7 +95,7 @@ const {id} = req.params;
 
 const deleteIdFromDB = catchAsync(async (req, res) => {
 
-  const result = await BrandService.deleteIdFromDB(req.params.id);
+  const result = await ProfileService.deleteIdFromDB(req.params.id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -78,7 +106,7 @@ const deleteIdFromDB = catchAsync(async (req, res) => {
 
 const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
 
-  const result = await BrandService.getAllFromDBWithoutQuery();
+  const result = await ProfileService.getAllFromDBWithoutQuery();
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -87,7 +115,7 @@ const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
   })
 })
 
- const ProductController = {
+ const ProfileController = {
   getAllFromDB,
   insertIntoDB,
   getDataById,
@@ -96,4 +124,4 @@ const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
   getAllFromDBWithoutQuery
 }
 
-module.exports = ProductController;
+module.exports = ProfileController;

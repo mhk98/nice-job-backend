@@ -5,7 +5,7 @@ const { DataTypes } = require("sequelize");
 
 // Define models
 db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
-db.product = require("../app/modules/product/product.model")(db.sequelize, DataTypes);
+db.profile = require("../app/modules/profile/profile.model")(db.sequelize, DataTypes);
 db.jobPost = require("../app/modules/jobPost/jobPost.model")(db.sequelize, DataTypes);
 
 

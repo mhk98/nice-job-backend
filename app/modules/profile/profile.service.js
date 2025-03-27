@@ -2,12 +2,12 @@ const { Op, where } = require("sequelize"); // Ensure Op is imported
 const paginationHelpers = require("../../../helpers/paginationHelper");
 const db = require("../../../models");
 const ApiError = require("../../../error/ApiError");
-const { BrandSearchableFields } = require("./profile.constants");
-const Brand = db.brand;
+const { ProfileSearchableFields } = require("./profile.constants");
+const Profile = db.profile;
 
 
 const insertIntoDB = async (data) => {
-  const result = await Brand.create(data);
+  const result = await Profile.create(data);
   return result
 };
 
@@ -22,7 +22,7 @@ const getAllFromDB = async (filters, options) => {
   // Handle search terms (case-insensitive match on multiple fields)
   if (searchTerm) {
     andConditions.push({
-      [Op.or]: BrandSearchableFields.map((field) => ({
+      [Op.or]: ProfileSearchableFields.map((field) => ({
         [field]: {
           [Op.iLike]: `%${searchTerm}%`, // Case-insensitive partial match
         },
@@ -45,7 +45,7 @@ const getAllFromDB = async (filters, options) => {
   const whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
 
   // Fetch data with conditions, pagination, and sorting
-  const result = await Brand.findAll({
+  const result = await Profile.findAll({
     where: whereConditions,
     offset: skip,
     limit,
@@ -55,7 +55,7 @@ const getAllFromDB = async (filters, options) => {
   });
 
   // Get total count for pagination meta
-  const total = await Brand.count({
+  const total = await Profile.count({
     where: whereConditions,
   });
 
@@ -74,7 +74,7 @@ const getAllFromDB = async (filters, options) => {
 
 const getDataById = async (id) => {
   
-  const result = await Brand.findOne({
+  const result = await Profile.findOne({
     where:{
       Id:id
     }
@@ -89,7 +89,7 @@ const deleteIdFromDB = async (id) => {
 
 
 
-  const result = await Brand.destroy(
+  const result = await Profile.destroy(
     {
       where:{
         id:id
@@ -103,7 +103,7 @@ const deleteIdFromDB = async (id) => {
 
 const updateOneFromDB = async (id, payload) => {
  
-  const result = await Brand.update(payload,{
+  const result = await Profile.update(payload,{
     where:{
       id:id
     }
@@ -117,7 +117,7 @@ const updateOneFromDB = async (id, payload) => {
 
 const getAllFromDBWithoutQuery = async () => {
  
-  const result = await Product.findAll()
+  const result = await Profile.findAll()
 
   return result
 
@@ -126,7 +126,7 @@ const getAllFromDBWithoutQuery = async () => {
 
 
 
-const BrandService = {
+const ProfileService = {
   getAllFromDB,
   insertIntoDB,
   deleteIdFromDB,
@@ -135,4 +135,4 @@ const BrandService = {
   getAllFromDBWithoutQuery
 };
 
-module.exports = BrandService;
+module.exports = ProfileService;

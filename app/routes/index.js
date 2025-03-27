@@ -1,6 +1,7 @@
 const express = require('express');
 const UserRoutes = require('../modules/user/user.routes');
 const JobPostRoutes = require('../modules/jobPost/jobPost.routes');
+const ProfileRoutes = require('../modules/profile/profile.routes');
 // const JobPostRoutes = require('../modules/jobPost/jobPost.routes');
 
 
@@ -16,6 +17,11 @@ const moduleRoutes = [
   {
     path: "/jobpost",
     route: JobPostRoutes
+  },
+  
+  {
+    path: "/profile",
+    route: ProfileRoutes
   },
   
   

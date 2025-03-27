@@ -8,42 +8,65 @@ module.exports = (sequelize) => {
       autoIncrement: true,
       allowNull: false,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [2, 50], // Minimum 2, Maximum 50 characters
+      },
+    },
     headline: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     birthdate: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     marital_status: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    language: {
+    location: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    languages: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      get() {
+        return this.getDataValue("languages") ? JSON.parse(this.getDataValue("languages")) : [];
+      },
+      set(value) {
+        this.setDataValue("languages", JSON.stringify(value));
+      },
     },
     current_address: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     permanent_address: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     expt_salary: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
 
-    skill: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
+    skills: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      get() {
+        return this.getDataValue("skills") ? JSON.parse(this.getDataValue("skills")) : [];
+      },
+      set(value) {
+        this.setDataValue("skills", JSON.stringify(value));
+      },
     },
     employment: {
       type: DataTypes.JSON, // JSON data type for storing complex data
@@ -69,7 +92,7 @@ module.exports = (sequelize) => {
   },
     summary: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     
     
