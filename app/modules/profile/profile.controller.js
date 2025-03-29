@@ -1,127 +1,367 @@
+// const catchAsync = require("../../../shared/catchAsync");
+// const sendResponse = require("../../../shared/sendResponse");
+// const pick = require("../../../shared/pick");
+// const ProfileService = require("./profile.service");
+// const { ProfileFilterAbleFileds } = require("./profile.constants");
+
+
+
+
+
+
+
+
+// // const insertIntoDB = catchAsync(async (req, res) => {
+
+// //   const { 
+// //     title,
+// //     name,
+// //     age,
+// //     currentSalary,
+// //     expectedSalary,
+// //     employment,
+// //     education,
+// //     languages,
+// //     skills,
+// //     summary
+
+// //   } = req.body;
+
+// //   const data = { 
+// //     title,
+// //     name,
+// //     age,
+// //     currentSalary,
+// //     expectedSalary,
+// //     employment,
+// //     education,
+// //     languages,
+// //     skills,
+// //     summary,
+// //   image: req.file === undefined ? undefined : req.file.path,
+
+// //   }
+
+// //   const result = await ProfileService.insertIntoDB(data);
+ 
+// //   sendResponse(res, {
+// //       statusCode: 200,
+// //       success: true,
+// //       message: "Product data created!!",
+// //       data: result
+// //   })
+// // })
+
+
+// const insertIntoDB = catchAsync(async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       title,
+//       age,
+//       location,
+//       currentSalary,
+//       expectedSalary,
+//       employmentHistory,
+//       educationHistory,
+//       skills,
+//       languages,
+//       summary,
+//     } = req.body;
+
+//     const jobProfileData = {
+//       name,
+//       title,
+//       age: parseInt(age, 10),
+//       location,
+//       currentSalary: parseFloat(currentSalary),
+//       expectedSalary: parseFloat(expectedSalary),
+//       employmentHistory: JSON.parse(employmentHistory || "[]"),
+//       educationHistory: JSON.parse(educationHistory || "[]"),
+//       skills: JSON.parse(skills || "[]"),
+//       languages: JSON.parse(languages || "[]"),
+//       summary,
+//       image: req.file ? req.file.path : null,
+//     };
+
+//     console.log("jobProfileData", jobProfileData)
+
+//     const result = await ProfileService.insertIntoDB(jobProfileData);
+
+//     sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Job profile created successfully!",
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.error("Insert Error:", error);
+//     sendResponse(res, {
+//       statusCode: 400,
+//       success: false,
+//       message: "Failed to create job profile.",
+//       error: error.message,
+//     });
+//   }
+// });
+
+
+
+// const getAllFromDB = catchAsync(async (req, res) => {
+
+//   const filters = pick(req.query, ProfileFilterAbleFileds);
+//   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+//   console.log('filters', req.query)
+
+
+//   const result = await ProfileService.getAllFromDB(filters, options);
+//   sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Product data fetched!!",
+//       meta: result.meta,
+//       data: result.data
+//   })
+// })
+
+
+// const getDataById = catchAsync(async (req, res) => {
+
+//   const result = await ProfileService.getDataById(req.params.id);
+//   sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Product data fetched!!",
+//       data: result
+//   })
+// })
+
+
+// const updateOneFromDB = catchAsync(async (req, res) => {
+// const {id} = req.params;
+//   const result = await ProfileService.updateOneFromDB(id, req.body);
+//   sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Product update successfully!!",
+//       data: result
+//   })
+// })
+
+
+// const deleteIdFromDB = catchAsync(async (req, res) => {
+
+//   const result = await ProfileService.deleteIdFromDB(req.params.id);
+//   sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Product delete successfully!!",
+//       data: result
+//   })
+// })
+
+// const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
+
+//   const result = await ProfileService.getAllFromDBWithoutQuery();
+//   sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Product data fetch!!",
+//       data: result
+//   })
+// })
+
+//  const ProfileController = {
+//   getAllFromDB,
+//   insertIntoDB,
+//   getDataById,
+//   updateOneFromDB,
+//   deleteIdFromDB,
+//   getAllFromDBWithoutQuery
+// }
+
+// module.exports = ProfileController;
+
+
+
+
+
+
+
 const catchAsync = require("../../../shared/catchAsync");
 const sendResponse = require("../../../shared/sendResponse");
 const pick = require("../../../shared/pick");
 const ProfileService = require("./profile.service");
 const { ProfileFilterAbleFileds } = require("./profile.constants");
 
+// const insertIntoDB = catchAsync(async (req, res) => {
+//   const {
+//     name,
+//     title,
+//     age,
+//     location,
+//     currentSalary,
+//     expectedSalary,
+//     employmentHistory,
+//     educationHistory,
+//     skills,
+//     languages,
+//     summary,
+//   } = req.body;
 
+//   // Prepare job profile data
+//   const jobProfileData = {
+//     name,
+//     title,
+//     age: parseInt(age, 10),
+//     location,
+//     currentSalary: parseFloat(currentSalary),
+//     expectedSalary: parseFloat(expectedSalary),
+//     employmentHistory: employmentHistory ? JSON.parse(employmentHistory) : [],
+//     educationHistory: educationHistory ? JSON.parse(educationHistory) : [],
+//     skills: skills ? JSON.parse(skills) : [],
+//     languages: languages ? JSON.parse(languages) : [],
+//     summary,
+//     image: req.file ? req.file.path : null, // Handling file upload
+//   };
 
+//   // Log data for debugging (remove in production)
+//   // console.log("jobProfileData", jobProfileData);
 
+//   // Insert job profile into DB
+//   const result = await ProfileService.insertIntoDB(jobProfileData);
 
-
+//   // Send response
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: "Job profile created successfully!",
+//     data: result,
+//   });
+// });
 
 
 const insertIntoDB = catchAsync(async (req, res) => {
-
-  const { 
-    title,
+  console.log(req.body)
+  const {
     name,
+    title,
     age,
+    location,
     currentSalary,
     expectedSalary,
-    employmentFields,
-    educationFields,
-    languages,
+    employmentHistory,
+    educationHistory,
     skills,
-
+    languages,
+    summary,
+    user_id
   } = req.body;
 
-  const data = { 
-    title,
+  // // Check if required fields are present
+  // if (!name || !title || !location || !summary) {
+  //   return sendResponse(res, {
+  //     statusCode: 400,
+  //     success: false,
+  //     message: "Missing required fields: name, title, location, and summary.",
+  //   });
+  // }
+
+  // Prepare job profile data
+  const jobProfileData = {
     name,
-    age,
-    currentSalary,
-    expectedSalary,
-    employmentFields,
-    educationFields,
-    languages,
-    skills,
-  image: req.file === undefined ? undefined : req.file.path,
+    title,
+    age: parseInt(age, 10),
+    location,
+    currentSalary: parseFloat(currentSalary),
+    expectedSalary: parseFloat(expectedSalary),
+    employmentHistory: employmentHistory ? JSON.parse(employmentHistory) : [],
+    educationHistory: educationHistory ? JSON.parse(educationHistory) : [],
+    skills: skills ? JSON.parse(skills) : [],
+    languages: languages ? JSON.parse(languages) : [],
+    summary,
+    image: req.file ? req.file.path : null, // Handling file upload
+    user_id
+  };
 
-  }
+  // Log data for debugging (remove in production)
+  // console.log("jobProfileData", jobProfileData);
 
-  const result = await ProfileService.insertIntoDB(data);
- 
+  // Insert job profile into DB
+  const result = await ProfileService.insertIntoDB(jobProfileData);
+
+  // Send response
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product data created!!",
-      data: result
-  })
-})
+    statusCode: 200,
+    success: true,
+    message: "Job profile created successfully!",
+    data: result,
+  });
+});
 
 
 const getAllFromDB = catchAsync(async (req, res) => {
-
   const filters = pick(req.query, ProfileFilterAbleFileds);
-  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  console.log('filters', req.query)
-
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
 
   const result = await ProfileService.getAllFromDB(filters, options);
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product data fetched!!",
-      meta: result.meta,
-      data: result.data
-  })
-})
-
+    statusCode: 200,
+    success: true,
+    message: "Job profile data fetched successfully!",
+    meta: result.meta,
+    data: result.data,
+  });
+});
 
 const getDataById = catchAsync(async (req, res) => {
-
   const result = await ProfileService.getDataById(req.params.id);
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product data fetched!!",
-      data: result
-  })
-})
-
+    statusCode: 200,
+    success: true,
+    message: "Job profile fetched successfully!",
+    data: result,
+  });
+});
 
 const updateOneFromDB = catchAsync(async (req, res) => {
-const {id} = req.params;
+  const { id } = req.params;
   const result = await ProfileService.updateOneFromDB(id, req.body);
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product update successfully!!",
-      data: result
-  })
-})
-
+    statusCode: 200,
+    success: true,
+    message: "Job profile updated successfully!",
+    data: result,
+  });
+});
 
 const deleteIdFromDB = catchAsync(async (req, res) => {
-
   const result = await ProfileService.deleteIdFromDB(req.params.id);
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product delete successfully!!",
-      data: result
-  })
-})
+    statusCode: 200,
+    success: true,
+    message: "Job profile deleted successfully!",
+    data: result,
+  });
+});
 
 const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
-
   const result = await ProfileService.getAllFromDBWithoutQuery();
   sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Product data fetch!!",
-      data: result
-  })
-})
+    statusCode: 200,
+    success: true,
+    message: "All job profiles fetched successfully!",
+    data: result,
+  });
+});
 
- const ProfileController = {
+const ProfileController = {
   getAllFromDB,
   insertIntoDB,
   getDataById,
   updateOneFromDB,
   deleteIdFromDB,
-  getAllFromDBWithoutQuery
-}
+  getAllFromDBWithoutQuery,
+};
 
 module.exports = ProfileController;

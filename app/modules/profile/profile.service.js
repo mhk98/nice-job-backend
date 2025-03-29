@@ -76,7 +76,7 @@ const getDataById = async (id) => {
   
   const result = await Profile.findOne({
     where:{
-      Id:id
+      user_id:id
     }
   })
 

@@ -12,8 +12,8 @@ db.jobPost = require("../app/modules/jobPost/jobPost.model")(db.sequelize, DataT
 
 //Realtion for product table
 
-// db.user.hasMany(db.order, { foreignKey: "user_id" });
-// db.order.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.profile, { foreignKey: "user_id" });
+db.profile.belongsTo(db.user, { foreignKey: "user_id" });
 
 // db.user.hasMany(db.cart, { foreignKey: "user_id" });
 // db.cart.belongsTo(db.user, { foreignKey: "user_id" });

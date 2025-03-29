@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Profile = sequelize.define('Profile', {
+  const Profile = sequelize.define("Profile", {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
@@ -11,91 +11,116 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [2, 50], // Minimum 2, Maximum 50 characters
-      },
     },
-    headline: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    birthdate: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    gender: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    marital_status: {
-      type: DataTypes.STRING,
+    age: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     location: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    languages: {
-      type: DataTypes.TEXT,
+    currentSalary: {
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+    },
+    expectedSalary: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    industry: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    jobType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    employmentType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    notice: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    employmentHistory: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      defaultValue: [],
       get() {
-        return this.getDataValue("languages") ? JSON.parse(this.getDataValue("languages")) : [];
+        try {
+          return JSON.parse(this.getDataValue("employmentHistory")) || [];
+        } catch (error) {
+          return [];
+        }
       },
       set(value) {
-        this.setDataValue("languages", JSON.stringify(value));
+        // Ensure the value is an array of objects with the required structure
+        if (Array.isArray(value)) {
+          const formattedEmploymentHistory = value.map((item) => ({
+            jobTitle: item.jobTitle || "",
+            companyName: item.companyName || "",
+            startDate: item.startDate || null,
+            endDate: item.endDate || null,
+          }));
+          this.setDataValue("employmentHistory", JSON.stringify(formattedEmploymentHistory));
+        } else {
+          this.setDataValue("employmentHistory", JSON.stringify([]));
+        }
       },
     },
-    current_address: {
-      type: DataTypes.STRING,
+    educationHistory: {
+      type: DataTypes.JSON,
       allowNull: false,
+      defaultValue: [],
     },
-    permanent_address: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    expt_salary: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
     skills: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: "[]",
       get() {
-        return this.getDataValue("skills") ? JSON.parse(this.getDataValue("skills")) : [];
+        try {
+          return JSON.parse(this.getDataValue("skills")) || [];
+        } catch (error) {
+          return [];
+        }
       },
       set(value) {
         this.setDataValue("skills", JSON.stringify(value));
       },
     },
-    employment: {
-      type: DataTypes.JSON, // JSON data type for storing complex data
+    languages: {
+      type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: {}, // Default value as an empty object
+      defaultValue: "[]",
       get() {
-          return JSON.parse(this.getDataValue("employment"));
+        try {
+          return JSON.parse(this.getDataValue("languages")) || [];
+        } catch (error) {
+          return [];
+        }
       },
-      set(val) {
-          this.setDataValue("employment", JSON.stringify(val));
+      set(value) {
+        this.setDataValue("languages", JSON.stringify(value));
       },
-  },
-  education: {
-      type: DataTypes.JSON, // JSON data type for storing complex data
-      allowNull: false,
-      defaultValue: {}, // Default value as an empty object
-      get() {
-          return JSON.parse(this.getDataValue("education"));
-      },
-      set(val) {
-          this.setDataValue("education", JSON.stringify(val));
-      },
-  },
+    },
     summary: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    
-    
+    image: {
+      type: DataTypes.STRING, // Store image URL/path
+      allowNull: false,
+    },
   });
 
   return Profile;
