@@ -52,6 +52,30 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    currentAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    permanentAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    maritalStatus: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    birthday: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
     employmentHistory: {
       type: DataTypes.JSON,
       allowNull: false,

@@ -193,6 +193,7 @@ const sendResponse = require("../../../shared/sendResponse");
 const pick = require("../../../shared/pick");
 const ProfileService = require("./profile.service");
 const { ProfileFilterAbleFileds } = require("./profile.constants");
+const { isMobilePhone } = require("validator");
 
 // const insertIntoDB = catchAsync(async (req, res) => {
 //   const {
@@ -255,7 +256,17 @@ const insertIntoDB = catchAsync(async (req, res) => {
     skills,
     languages,
     summary,
-    user_id
+    user_id,
+    jobType,
+    employmentType,
+    phone,
+    notice,
+    email,
+    currentAddress,
+    permanentAddress,
+    gender,
+    maritalStatus,
+    industry,
   } = req.body;
 
   // // Check if required fields are present
@@ -281,7 +292,17 @@ const insertIntoDB = catchAsync(async (req, res) => {
     languages: languages ? JSON.parse(languages) : [],
     summary,
     image: req.file ? req.file.path : null, // Handling file upload
-    user_id
+    user_id,
+    jobType,
+    employmentType,
+    phone,
+    notice,
+    email,
+    currentAddress,
+    permanentAddress,
+    gender,
+    maritalStatus,
+    industry
   };
 
   // Log data for debugging (remove in production)
