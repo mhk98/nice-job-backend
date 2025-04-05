@@ -14,16 +14,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
           },
           
+        companyName: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         email: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-
-        // tags: {
-        //   type: DataTypes.JSON, // Store as an array in JSON format
-        //   allowNull: false,
-        // },        
-  
         tags: {
           type: DataTypes.TEXT,
           allowNull: false,

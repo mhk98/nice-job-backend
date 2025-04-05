@@ -266,6 +266,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
     permanentAddress,
     gender,
     maritalStatus,
+    birthday,
     industry,
   } = req.body;
 
@@ -302,6 +303,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
     permanentAddress,
     gender,
     maritalStatus,
+    birthday,
     industry
   };
 

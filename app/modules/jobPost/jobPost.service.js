@@ -74,9 +74,20 @@ const getAllFromDB = async ( options) => {
 
 const getDataById = async (id) => {
   
+  const result = await JobPost.findOne({
+    where:{
+      id:id
+    }
+  })
+
+  return result
+};
+
+const getManageJobById = async (userId) => {
+  
   const result = await JobPost.findAll({
     where:{
-      user_id:id
+      user_id:userId
     }
   })
 
@@ -117,6 +128,7 @@ const JobPostService = {
   deleteIdFromDB,
   updateOneFromDB,
   getDataById,
+  getManageJobById
 };
 
 module.exports = JobPostService;

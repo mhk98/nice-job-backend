@@ -1,7 +1,11 @@
 const catchAsync = require("../../../shared/catchAsync");
 const sendResponse = require("../../../shared/sendResponse");
 const pick = require("../../../shared/pick");
-const JobPostService = require("./jobPost.service");
+const AppliedJobService = require("./appliedJob.service");
+const { AppliedJobFilterAbleFileds } = require("./appliedJob.constants");
+const db = require("../../../models");
+// const Profile = db.profile;
+
 
 
 
@@ -15,41 +19,46 @@ const insertIntoDB = catchAsync(async (req, res) => {
   const { 
     title,
     companyName,
-    email,
-    tags,
-    type,
-    experience,
     minSalary,
     maxSalary,
-    region,
     location,
+    type,
     user_id,
-    content
+    jobPost_id
   } = req.body;
 
   const data = { 
     title,
     companyName,
-    email,
-    tags,
-    type,
-    experience,
     minSalary,
     maxSalary,
-    region,
     location,
+    type,
     user_id,
-    content,
-  image: req.file === undefined ? undefined : req.file.path,
-
+    jobPost_id
   }
 
-  const result = await JobPostService.insertIntoDB(data);
+  //   const profileData = await Profile.findOne({
+  //   where:{
+  //     user_id:user_id
+  //   }
+  // })
+
+  // console.log("profileData", profileData)
+  // const appliedJobInfo = {
+  //   data,
+  //   name: profileData.name,
+  //   skills: profileData.skills,
+  //   employmentType:profileData.employmentType,
+  //   profileLocation: profileData.location
+  // }
+
+  const result = await AppliedJobService.insertIntoDB(data);
  
   sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "JobPost data created!!",
+      message: "appliedJob data created!!",
       data: result
   })
 })
@@ -57,13 +66,13 @@ const insertIntoDB = catchAsync(async (req, res) => {
 
 const getAllFromDB = catchAsync(async (req, res) => {
 
-//   const filters = pick(req.query, CartFilterAbleFileds);
+  const filters = pick(req.query, AppliedJobFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   console.log('filters', req.query)
 
 
 //   const result = await CartService.getAllFromDB(filters, options);
-  const result = await JobPostService.getAllFromDB( options);
+  const result = await AppliedJobService.getAllFromDB( options, filters);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -76,7 +85,7 @@ const getAllFromDB = catchAsync(async (req, res) => {
 
 const getDataById = catchAsync(async (req, res) => {
 
-  const result = await JobPostService.getDataById(req.params.id);
+  const result = await AppliedJobService.getDataById(req.params.id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -85,14 +94,9 @@ const getDataById = catchAsync(async (req, res) => {
   })
 })
 
+const getAppliedJobProfleById = catchAsync(async (req, res) => {
 
-const getManageJobById = catchAsync(async (req, res) => {
-
-  const {userId} = req.params;
-
-  const result = await JobPostService.getManageJobById(userId);
-  console.log('userId', userId)
-  console.log('result', result)
+  const result = await AppliedJobService.getAppliedJobProfleById(req.params.jobPost_id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -104,7 +108,7 @@ const getManageJobById = catchAsync(async (req, res) => {
 
 const updateOneFromDB = catchAsync(async (req, res) => {
 const {id} = req.params;
-  const result = await JobPostService.updateOneFromDB(id, req.body);
+  const result = await AppliedJobService.updateOneFromDB(id, req.body);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -118,7 +122,7 @@ const deleteIdFromDB = catchAsync(async (req, res) => {
     const {id} = req.params;
     console.log('deleteId',id)
 
-  const result = await JobPostService.deleteIdFromDB(id);
+  const result = await AppliedJobService.deleteIdFromDB(id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -129,7 +133,7 @@ const deleteIdFromDB = catchAsync(async (req, res) => {
 
 const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
 
-  const result = await JobPostService.getAllFromDBWithoutQuery();
+  const result = await AppliedJobService.getAllFromDBWithoutQuery();
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -138,14 +142,14 @@ const getAllFromDBWithoutQuery = catchAsync(async (req, res) => {
   })
 })
 
- const JobPostController = {
+ const AppliedJobController = {
   getAllFromDB,
   insertIntoDB,
   getDataById,
   updateOneFromDB,
   deleteIdFromDB,
-  getManageJobById,
-  getAllFromDBWithoutQuery
+  getAllFromDBWithoutQuery,
+  getAppliedJobProfleById
 }
 
-module.exports = JobPostController;
+module.exports = AppliedJobController;

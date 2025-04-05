@@ -7,6 +7,7 @@ const { DataTypes } = require("sequelize");
 db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
 db.profile = require("../app/modules/profile/profile.model")(db.sequelize, DataTypes);
 db.jobPost = require("../app/modules/jobPost/jobPost.model")(db.sequelize, DataTypes);
+db.appliedJob = require("../app/modules/appliedJob/appliedJob.model")(db.sequelize, DataTypes);
 
 
 
@@ -15,8 +16,14 @@ db.jobPost = require("../app/modules/jobPost/jobPost.model")(db.sequelize, DataT
 db.user.hasMany(db.profile, { foreignKey: "user_id" });
 db.profile.belongsTo(db.user, { foreignKey: "user_id" });
 
-// db.user.hasMany(db.cart, { foreignKey: "user_id" });
-// db.cart.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.appliedJob, { foreignKey: "user_id" });
+db.appliedJob.belongsTo(db.user, { foreignKey: "user_id" });
+
+db.jobPost.hasMany(db.appliedJob, { foreignKey: "jobPost_id" });
+db.appliedJob.belongsTo(db.jobPost, { foreignKey: "jobPost_id" });
+
+db.user.hasMany(db.jobPost, { foreignKey: "user_id" });
+db.jobPost.belongsTo(db.user, { foreignKey: "user_id" });
 
 
 
