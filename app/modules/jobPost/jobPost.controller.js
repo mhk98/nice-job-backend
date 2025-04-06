@@ -2,6 +2,7 @@ const catchAsync = require("../../../shared/catchAsync");
 const sendResponse = require("../../../shared/sendResponse");
 const pick = require("../../../shared/pick");
 const JobPostService = require("./jobPost.service");
+const { JobPostFilterAbleFileds } = require("./jobPost.constants");
 
 
 
@@ -21,7 +22,8 @@ const insertIntoDB = catchAsync(async (req, res) => {
     experience,
     minSalary,
     maxSalary,
-    region,
+    city,
+    category,
     location,
     user_id,
     content
@@ -36,7 +38,8 @@ const insertIntoDB = catchAsync(async (req, res) => {
     experience,
     minSalary,
     maxSalary,
-    region,
+    city,
+    category,
     location,
     user_id,
     content,
@@ -57,13 +60,13 @@ const insertIntoDB = catchAsync(async (req, res) => {
 
 const getAllFromDB = catchAsync(async (req, res) => {
 
-//   const filters = pick(req.query, CartFilterAbleFileds);
+  const filters = pick(req.query, JobPostFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   console.log('filters', req.query)
 
 
 //   const result = await CartService.getAllFromDB(filters, options);
-  const result = await JobPostService.getAllFromDB( options);
+  const result = await JobPostService.getAllFromDB(filters, options);
   sendResponse(res, {
       statusCode: 200,
       success: true,

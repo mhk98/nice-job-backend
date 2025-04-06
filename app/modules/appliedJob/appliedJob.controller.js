@@ -58,7 +58,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
   sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "appliedJob data created!!",
+      message: "Successfully applied job!!",
       data: result
   })
 })

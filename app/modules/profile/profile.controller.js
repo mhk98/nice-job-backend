@@ -247,7 +247,6 @@ const insertIntoDB = catchAsync(async (req, res) => {
   const {
     name,
     title,
-    age,
     location,
     currentSalary,
     expectedSalary,
@@ -268,6 +267,8 @@ const insertIntoDB = catchAsync(async (req, res) => {
     maritalStatus,
     birthday,
     industry,
+    city,
+    category,
   } = req.body;
 
   // // Check if required fields are present
@@ -283,7 +284,6 @@ const insertIntoDB = catchAsync(async (req, res) => {
   const jobProfileData = {
     name,
     title,
-    age: parseInt(age, 10),
     location,
     currentSalary: parseFloat(currentSalary),
     expectedSalary: parseFloat(expectedSalary),
@@ -304,7 +304,9 @@ const insertIntoDB = catchAsync(async (req, res) => {
     gender,
     maritalStatus,
     birthday,
-    industry
+    industry,
+    city,
+    category,
   };
 
   // Log data for debugging (remove in production)

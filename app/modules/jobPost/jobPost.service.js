@@ -2,6 +2,7 @@ const { Op, where } = require("sequelize"); // Ensure Op is imported
 const paginationHelpers = require("../../../helpers/paginationHelper");
 const db = require("../../../models");
 const ApiError = require("../../../error/ApiError");
+const { JobPostSearchableFields } = require("./jobPost.constants");
 const JobPost = db.jobPost;
 
 
@@ -13,61 +14,87 @@ const insertIntoDB = async (data) => {
 };
 
 
-const getAllFromDB = async ( options) => {
+const getAllFromDB = async (filters, options) => {
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
-  // const { searchTerm, ...filterData } = filters;
+  const { searchTerm, ...filterData } = filters;
 
   const andConditions = [];
 
   // // Handle search terms (case-insensitive match on multiple fields)
-  // if (searchTerm) {
-  //   andConditions.push({
-  //     [Op.or]: ProductSearchableFields.map((field) => ({
-  //       [field]: {
-  //         [Op.iLike]: `%${searchTerm}%`, // Case-insensitive partial match
-  //       },
-  //     })),
-  //   });
-  // }
+  if (searchTerm) {
+    andConditions.push({
+      [Op.or]: JobPostSearchableFields.map((field) => ({
+        [field]: {
+          [Op.iLike]: `%${searchTerm}%`, // Case-insensitive partial match
+        },
+      })),
+    });
+  }
 
-  // // Handle filters (exact match for provided keys)
-  // if (Object.keys(filterData).length > 0) {
-  //   andConditions.push({
-  //     [Op.and]: Object.entries(filterData).map(([key, value]) => ({
-  //       [key]: {
-  //         [Op.eq]: value, // Exact match
-  //       },
-  //     })),
-  //   });
-  // }
+  // Handle filters (exact match for provided keys)
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+        [key]: {
+          [Op.eq]: value, // Exact match
+        },
+      })),
+    });
+  }
 
   // Combine conditions
-  const whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
+  let whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
 
   // Fetch data with conditions, pagination, and sorting
-  const result = await JobPost.findAll({
-    where: whereConditions,
-    offset: skip,
-    limit,
-    order: options.sortBy && options.sortOrder
-      ? [[options.sortBy, options.sortOrder.toUpperCase()]] // Ensure sortOrder is uppercase
-      : [['createdAt', 'DESC']], // Default sorting
-  });
-
-  // Get total count for pagination meta
-  const total = await JobPost.count({
-    where: whereConditions,
-  });
-
-  // Return the result with meta information
-  return {
-    meta: {
-      total,
-      page,
+ 
+    // Try to find products matching `title`
+    let result = await JobPost.findAll({
+      where: whereConditions,
+      offset: skip,
       limit,
-    },
-    data: result,
-  };
+      order: options.sortBy && options.sortOrder
+        ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+        : [['createdAt', 'ASC']],
+    });
+  
+    // If no products are found with `title`, fallback to `tag`
+    if (result.length === 0 && searchTerm) {
+      andConditions = [];
+      // andConditions.push({
+      //   tag: { [Op.like]: `%${searchTerm}%` }, // Matches anywhere in `tag`
+      // });
+  
+      if (Object.keys(filterData).length > 0) {
+        andConditions.push({
+          [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+            [key]: { [Op.eq]: value },
+          })),
+        });
+      }
+  
+      whereConditions = { [Op.and]: andConditions };
+  
+      result = await Product.findAll({
+        where: whereConditions,
+        offset: skip,
+        limit,
+        order: options.sortBy && options.sortOrder
+          ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+          : [['createdAt', 'ASC']],
+      });
+    }
+  
+    const total = await JobPost.count({ where: whereConditions });
+  
+    // If no products are found in both `title` and `tag`
+    if (result.length === 0) {
+      throw new ApiError(404, "Job not found");
+    }
+  
+    return {
+      meta: { total, page, limit },
+      data: result,
+    };
 };
 
 

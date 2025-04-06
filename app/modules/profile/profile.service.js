@@ -41,33 +41,59 @@ const getAllFromDB = async (filters, options) => {
     });
   }
 
-  // Combine conditions
-  const whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
+ // Combine conditions
+ let whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
 
-  // Fetch data with conditions, pagination, and sorting
-  const result = await Profile.findAll({
-    where: whereConditions,
-    offset: skip,
-    limit,
-    order: options.sortBy && options.sortOrder
-      ? [[options.sortBy, options.sortOrder.toUpperCase()]] // Ensure sortOrder is uppercase
-      : [['createdAt', 'ASC']], // Default sorting
-  });
+ // Fetch data with conditions, pagination, and sorting
 
-  // Get total count for pagination meta
-  const total = await Profile.count({
-    where: whereConditions,
-  });
-
-  // Return the result with meta information
-  return {
-    meta: {
-      total,
-      page,
-      limit,
-    },
-    data: result,
-  };
+   // Try to find products matching `title`
+   let result = await Profile.findAll({
+     where: whereConditions,
+     offset: skip,
+     limit,
+     order: options.sortBy && options.sortOrder
+       ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+       : [['createdAt', 'ASC']],
+   });
+ 
+   // If no products are found with `title`, fallback to `tag`
+   if (result.length === 0 && searchTerm) {
+     andConditions = [];
+     // andConditions.push({
+     //   tag: { [Op.like]: `%${searchTerm}%` }, // Matches anywhere in `tag`
+     // });
+ 
+     if (Object.keys(filterData).length > 0) {
+       andConditions.push({
+         [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+           [key]: { [Op.eq]: value },
+         })),
+       });
+     }
+ 
+     whereConditions = { [Op.and]: andConditions };
+ 
+     result = await Profile.findAll({
+       where: whereConditions,
+       offset: skip,
+       limit,
+       order: options.sortBy && options.sortOrder
+         ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+         : [['createdAt', 'ASC']],
+     });
+   }
+ 
+   const total = await Profile.count({ where: whereConditions });
+ 
+   // If no products are found in both `title` and `tag`
+   if (result.length === 0) {
+     throw new ApiError(404, "Job not found");
+   }
+ 
+   return {
+     meta: { total, page, limit },
+     data: result,
+   };
 };
 
 

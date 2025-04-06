@@ -16,10 +16,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    age: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     location: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -49,6 +45,14 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     notice: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
       type: DataTypes.STRING,
       allowNull: false,
     },
