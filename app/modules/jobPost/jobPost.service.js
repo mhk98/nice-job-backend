@@ -97,6 +97,79 @@ const getAllFromDB = async (filters, options) => {
     };
 };
 
+// const getAllFromDB = async (filters, options) => {
+//   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+//   const { searchTerm, ...filterData } = filters;
+
+//   let andConditions = [];
+
+//   // Match `title` starting from the search term
+//   if (searchTerm) {
+//     andConditions.push({
+//       title: { [Op.like]: `${searchTerm}%` },
+//     });
+//   }
+
+//   if (Object.keys(filterData).length > 0) {
+//     andConditions.push({
+//       [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+//         [key]: { [Op.eq]: value },
+//       })),
+//     });
+//   }
+
+//   let whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
+
+//   // Try to find Job matching `title`
+//   let result = await JobPost.findAll({
+//     where: whereConditions,
+//     offset: skip,
+//     limit,
+//     order: options.sortBy && options.sortOrder
+//       ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+//       : [['createdAt', 'ASC']],
+//   });
+
+//   // If no Job are found with `title`, fallback to `tag`
+//   if (result.length === 0 && searchTerm) {
+//     andConditions = [];
+//     // andConditions.push({
+//     //   tag: { [Op.like]: `%${searchTerm}%` }, // Matches anywhere in `tag`
+//     // });
+
+//     if (Object.keys(filterData).length > 0) {
+//       andConditions.push({
+//         [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+//           [key]: { [Op.eq]: value },
+//         })),
+//       });
+//     }
+
+//     whereConditions = { [Op.and]: andConditions };
+
+//     result = await JobPost.findAll({
+//       where: whereConditions,
+//       offset: skip,
+//       limit,
+//       order: options.sortBy && options.sortOrder
+//         ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+//         : [['createdAt', 'ASC']],
+//     });
+//   }
+
+//   const total = await JobPost.count({ where: whereConditions });
+
+//   // If no Job are found in both `title` and `tag`
+//   if (result.length === 0) {
+//     throw new ApiError(404, "Job not found");
+//   }
+
+//   return {
+//     meta: { total, page, limit },
+//     data: result,
+//   };
+// };
+
 
 
 const getDataById = async (id) => {

@@ -1,6 +1,6 @@
-const JobPostFilterAbleFileds = ['searchTerm', 'tag', 'category_id', 'subCategoryItem_id', 'brand_id' ];
+const JobPostFilterAbleFileds = ['searchTerm', 'city', 'category' ];
 
-const JobPostSearchableFields = ['searchTerm', 'tag', 'title', 'brand_title',  'category_title'];
+const JobPostSearchableFields = ['searchTerm', 'city', 'category'];
 
 
 module.exports = {

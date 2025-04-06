@@ -65,16 +65,16 @@ const getAllFromDB = catchAsync(async (req, res) => {
   console.log('filters', req.query)
 
 
-//   const result = await CartService.getAllFromDB(filters, options);
   const result = await JobPostService.getAllFromDB(filters, options);
   sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "JobPost data fetched!!",
+      message: "Job data fetched!!",
       meta: result.meta,
       data: result.data
   })
 })
+
 
 
 const getDataById = catchAsync(async (req, res) => {
