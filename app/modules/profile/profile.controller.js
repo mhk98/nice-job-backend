@@ -351,7 +351,13 @@ const getDataById = catchAsync(async (req, res) => {
 
 const updateOneFromDB = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await ProfileService.updateOneFromDB(id, req.body);
+  const payload = req.body
+  const data = {
+      ...payload,
+      image: req.file ? req.file.path : null, 
+  
+    }
+  const result = await ProfileService.updateOneFromDB(id, data);
   sendResponse(res, {
     statusCode: 200,
     success: true,
