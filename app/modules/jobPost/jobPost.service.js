@@ -4,12 +4,30 @@ const db = require("../../../models");
 const ApiError = require("../../../error/ApiError");
 const { JobPostSearchableFields } = require("./jobPost.constants");
 const JobPost = db.jobPost;
+const JobCategory = db.jobCategory;
 
 
 const insertIntoDB = async (data) => {
 
   console.log(data)
-  const result = await JobPost.create(data);
+  const categoryData = await JobCategory.findOne({
+    where: { id: data.category_id }
+  });
+
+  if (!categoryData) {
+    throw new ApiError(404, "Category not found for this user.");
+  }
+
+  console.log("categoryData", categoryData)
+
+  const categoryInfo = {
+    ...data, // Spread the original input fields
+    category: categoryData.category,
+    
+  };
+
+  console.log("categoryInfo", categoryInfo)
+  const result = await JobPost.create(categoryInfo);
   return result
 };
 
@@ -172,6 +190,12 @@ const getAllFromDB = async (filters, options) => {
 
 
 
+const getAllFromDBWithoutQuery = async () => {
+  
+  const result = await JobPost.findAll()
+
+  return result
+};
 const getDataById = async (id) => {
   
   const result = await JobPost.findOne({
@@ -228,7 +252,8 @@ const JobPostService = {
   deleteIdFromDB,
   updateOneFromDB,
   getDataById,
-  getManageJobById
+  getManageJobById,
+  getAllFromDBWithoutQuery
 };
 
 module.exports = JobPostService;

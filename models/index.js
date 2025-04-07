@@ -8,10 +8,17 @@ db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
 db.profile = require("../app/modules/profile/profile.model")(db.sequelize, DataTypes);
 db.jobPost = require("../app/modules/jobPost/jobPost.model")(db.sequelize, DataTypes);
 db.appliedJob = require("../app/modules/appliedJob/appliedJob.model")(db.sequelize, DataTypes);
+db.jobCategory = require("../app/modules/jobCategory/jobCategory.model")(db.sequelize, DataTypes);
 
 
 
 //Realtion for product table
+
+db.jobCategory.hasMany(db.jobPost, { foreignKey: "category_id" });
+db.jobPost.belongsTo(db.jobCategory, { foreignKey: "category_id" });
+
+// db.jobCategory.hasMany(db.profile, { foreignKey: "category_id" });
+// db.profile.belongsTo(db.jobCategory, { foreignKey: "category_id" });
 
 db.user.hasMany(db.profile, { foreignKey: "user_id" });
 db.profile.belongsTo(db.user, { foreignKey: "user_id" });

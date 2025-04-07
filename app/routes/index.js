@@ -3,6 +3,7 @@ const UserRoutes = require('../modules/user/user.routes');
 const JobPostRoutes = require('../modules/jobPost/jobPost.routes');
 const ProfileRoutes = require('../modules/profile/profile.routes');
 const AppliedJobRoutes = require('../modules/appliedJob/appliedJob.routes');
+const JobCategoryRoutes = require('../modules/jobCategory/jobCategory.routes');
 // const JobPostRoutes = require('../modules/jobPost/jobPost.routes');
 
 
@@ -28,6 +29,10 @@ const moduleRoutes = [
   {
     path: "/appliedJob",
     route: AppliedJobRoutes
+  },
+  {
+    path: "/category",
+    route: JobCategoryRoutes
   },
   
   

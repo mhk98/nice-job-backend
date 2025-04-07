@@ -129,9 +129,14 @@ const deleteIdFromDB = async (id) => {
 
 const updateOneFromDB = async (id, payload) => {
  
-  const result = await Profile.update(payload,{
+  const data = {
+    ...payload,
+    image: req.file ? req.file.path : null, // Handling file upload
+
+  }
+  const result = await Profile.update(data,{
     where:{
-      id:id
+      user_id:id
     }
   })
 

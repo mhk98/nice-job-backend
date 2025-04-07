@@ -6,6 +6,7 @@ const router = require("express").Router();
 
 router.post("/create", uploadSingle,  JobPostController.insertIntoDB);
 router.get("/", JobPostController.getAllFromDB);
+router.get("/all", JobPostController.getAllFromDBWithoutQuery);
 router.get("/:id", JobPostController.getDataById);
 router.get("/manage/:userId", JobPostController.getManageJobById);
 

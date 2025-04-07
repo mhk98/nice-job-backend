@@ -9,7 +9,7 @@ router.get("/", ProfileController.getAllFromDB);
 router.get("/all", ProfileController.getAllFromDBWithoutQuery);
 router.get("/:id", ProfileController.getDataById);
 router.delete("/:id",  ProfileController.deleteIdFromDB);
-router.patch("/:id",  ProfileController.updateOneFromDB);
+router.patch("/:id", uploadSingle, ProfileController.updateOneFromDB);
 
 const ProfileRoutes = router;
 module.exports =  ProfileRoutes;

@@ -23,7 +23,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
     minSalary,
     maxSalary,
     city,
-    category,
+    category_id,
     location,
     user_id,
     content
@@ -39,7 +39,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
     minSalary,
     maxSalary,
     city,
-    category,
+    category_id,
     location,
     user_id,
     content,
