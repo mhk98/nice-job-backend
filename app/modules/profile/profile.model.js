@@ -110,7 +110,36 @@ module.exports = (sequelize) => {
       type: DataTypes.JSON,
       allowNull: false,
       defaultValue: [],
+      get() {
+        try {
+          return JSON.parse(this.getDataValue("educationHistory")) || [];
+        } catch (error) {
+          return [];
+        }
+      },
+      set(value) {
+        // Ensure the value is an array of objects with the required structure
+        if (Array.isArray(value)) {
+          const formattedEducationHistory = value.map((item) => ({
+            degree: item.degree || "",
+            institution: item.institution || "",
+            graduationYear: item.graduationYear || null,
+            CGPA: item.CGPA || null,
+          }));
+          this.setDataValue("educationHistory", JSON.stringify(formattedEducationHistory));
+        } else {
+          this.setDataValue("educationHistory", JSON.stringify([]));
+        }
+      },
     },
+    // educationHistory: {
+    //   type: DataTypes.JSON,
+    //   allowNull: false,
+    //   defaultValue: [],
+    // },
+
+
+   
     skills: {
       type: DataTypes.TEXT,
       allowNull: false,

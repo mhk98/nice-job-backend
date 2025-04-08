@@ -243,7 +243,7 @@ const { isMobilePhone } = require("validator");
 
 
 const insertIntoDB = catchAsync(async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   const {
     name,
     title,
@@ -268,17 +268,11 @@ const insertIntoDB = catchAsync(async (req, res) => {
     birthday,
     industry,
     city,
+    headline,
     category,
   } = req.body;
 
-  // // Check if required fields are present
-  // if (!name || !title || !location || !summary) {
-  //   return sendResponse(res, {
-  //     statusCode: 400,
-  //     success: false,
-  //     message: "Missing required fields: name, title, location, and summary.",
-  //   });
-  // }
+ 
 
   // Prepare job profile data
   const jobProfileData = {
@@ -287,10 +281,10 @@ const insertIntoDB = catchAsync(async (req, res) => {
     location,
     currentSalary: parseFloat(currentSalary),
     expectedSalary: parseFloat(expectedSalary),
-    employmentHistory: employmentHistory ? JSON.parse(employmentHistory) : [],
-    educationHistory: educationHistory ? JSON.parse(educationHistory) : [],
-    skills: skills ? JSON.parse(skills) : [],
-    languages: languages ? JSON.parse(languages) : [],
+    employmentHistory: employmentHistory === "" ? undefined : JSON.parse(employmentHistory),
+    educationHistory: educationHistory === "" ? undefined : JSON.parse(educationHistory),
+    skills: skills === "" ? undefined : JSON.parse(skills),
+    languages: languages === "" ? undefined : JSON.parse(languages),
     summary,
     image: req.file ? req.file.path : null, // Handling file upload
     user_id,
@@ -305,6 +299,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
     maritalStatus,
     birthday,
     industry,
+    headline,
     city,
     category,
   };
@@ -351,12 +346,69 @@ const getDataById = catchAsync(async (req, res) => {
 
 const updateOneFromDB = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const payload = req.body
+
+  const {
+    name,
+    title,
+    location,
+    currentSalary,
+    expectedSalary,
+    employmentHistory,
+    educationHistory,
+    skills,
+    languages,
+    summary,
+    user_id,
+    jobType,
+    employmentType,
+    phone,
+    notice,
+    email,
+    currentAddress,
+    permanentAddress,
+    gender,
+    maritalStatus,
+    birthday,
+    industry,
+    city,
+    headline,
+    category,
+  } = req.body;
+
+ 
+
+  // Prepare job profile data
   const data = {
-      ...payload,
-      image: req.file ? req.file.path : null, 
+    name,
+    title,
+    location,
+    currentSalary: parseFloat(currentSalary),
+    expectedSalary: parseFloat(expectedSalary),
+    employmentHistory: employmentHistory === "" ? undefined : JSON.parse(employmentHistory),
+    educationHistory: educationHistory === "" ? undefined : JSON.parse(educationHistory),
+    skills: skills === "" ? undefined : JSON.parse(skills),
+    languages: languages === "" ? undefined : JSON.parse(languages),
+    summary,
+    image: req.file ? req.file.path : null, // Handling file upload
+    user_id,
+    jobType,
+    employmentType,
+    phone,
+    notice,
+    email,
+    currentAddress,
+    permanentAddress,
+    gender,
+    maritalStatus,
+    birthday,
+    industry,
+    headline,
+    city,
+    category,
+  };
+
+  console.log("data", data)
   
-    }
   const result = await ProfileService.updateOneFromDB(id, data);
   sendResponse(res, {
     statusCode: 200,

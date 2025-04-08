@@ -224,7 +224,7 @@ const deleteIdFromDB = async (id) => {
   const result = await JobPost.destroy(
     {
       where:{
-        product_id:id
+        id:id
       }
     }
   )
