@@ -11,6 +11,7 @@ router.get('/', auth( ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN), UserCon
 router.get('/:id',  UserController.getUserById); // Use :id to get a user by ID
 router.delete('/:id', auth( ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN), UserController.deleteUserFromDB);
 router.patch('/:id', auth( ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN), uploadSingle, UserController.updateUserFromDB);
+router.patch('/change-password/:id',  UserController.updateUserPasswordFromDB);
 
 // Export the router
 const UserRoutes = router;

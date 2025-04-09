@@ -143,6 +143,44 @@ const updateUserFromDB = async (id, payload) => {
 
 };
 
+const updateUserPasswordFromDB = async (id, payload) => {
+
+  console.log("id", id)
+  const { currentPassword, newPassword, confirmNewPassword } = payload;
+
+  if (!currentPassword || !newPassword || !confirmNewPassword) {
+    throw new ApiError('All password fields are required.', 400);
+  }
+
+  if (newPassword !== confirmNewPassword) {
+    throw new ApiError('New passwords do not match.', 400);
+  }
+
+  // Fetch the user from the database
+  const user = await User.findByPk(id);
+  if (!user) {
+    throw new ApiError('User not found.', 404);
+  }
+
+  // Verify the current password
+  const isMatch = await bcrypt.compare(currentPassword, user.Password);
+  if (!isMatch) {
+    throw new ApiError('Current password is incorrect.', 401);
+  }
+
+  // Hash and update the new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  // Update the password in the database
+  const result = await User.update(
+    { Password: hashedPassword }, // Hash the new password
+    { where: { id } } // Update the password for the given user id
+  );
+
+  return result;
+};
+
 
  const UserService = {
   getAllUserFromDB,
@@ -150,7 +188,8 @@ const updateUserFromDB = async (id, payload) => {
   register,
   deleteUserFromDB,
   updateUserFromDB,
-  getUserById
+  getUserById,
+  updateUserPasswordFromDB
 
 }
 

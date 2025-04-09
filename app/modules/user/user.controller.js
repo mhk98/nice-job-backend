@@ -109,13 +109,26 @@ const deleteUserFromDB = catchAsync(async (req, res) => {
 })
 
 
+const updateUserPasswordFromDB = catchAsync(async (req, res) => {
+  const {id} = req.params;
+  const result = await UserService.updateUserPasswordFromDB(id, req.body);
+  sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Password change successfully!!",
+      data: result
+  })
+})
+
+
 const UserController = {
   getAllUserFromDB,
   login,
   register,
   getUserById,
   updateUserFromDB,
-  deleteUserFromDB
+  deleteUserFromDB,
+  updateUserPasswordFromDB
 };
 
 module.exports = UserController;
