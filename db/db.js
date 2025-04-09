@@ -29,20 +29,24 @@ require('dotenv').config();
 
 
 const sequelize = new Sequelize(
-  `${process.env.DB_NAME}`,
-  `${process.env.DB_USER}`,
-  `${process.env.DB_PASSWORD}`,
+  // `${process.env.DB_NAME}`,
+  // `${process.env.DB_USER}`,
+  // `${process.env.DB_PASSWORD}`,
 
   // 'sql12772137', // Replace with your actual database name
   // 'sql12772137', // Replace with your actual database user
   // 'uIMTXIAnJR', // Replace with your actual database password
+
+  'freedb_job_db', // Replace with your actual database name
+  'freedb_nicesoftware', // Replace with your actual database user
+  'WB5nyj3@u6pmm@q', // Replace with your actual database password
   {
       // host:'82.112.226.90',
       
-    // host: "sql.freedb.tech",
+    host: "sql.freedb.tech",
     // host: "sql12.freesqldatabase.com",
     // host:"mysql-34ea360f-mohsinkabirseo-6632.i.aivencloud.com",
-    host:process.env.DB_HOST,
+    // host:process.env.DB_HOST,
     dialect: "mysql",
     pool: { max: 5, min: 0, idle: 10000 },
     logging: false,
