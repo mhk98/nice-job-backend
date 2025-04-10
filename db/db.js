@@ -35,7 +35,7 @@ const sequelize = new Sequelize(
 
   'nice_job', // Replace with your actual database name
   'nice_job', // Replace with your actual database user
-  '886f3pw_V', // Replace with your actual database password
+  's!8gQ57t5', // Replace with your actual database password
 
   // 'freedb_job_db', // Replace with your actual database name
   // 'freedb_nicesoftware', // Replace with your actual database user
