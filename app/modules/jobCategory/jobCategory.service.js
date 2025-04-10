@@ -28,7 +28,7 @@ const getAllFromDB = async () => {
     const result = await JobCategory.destroy(
       {
         where:{
-          product_id:id
+          id:id
         }
       }
     )

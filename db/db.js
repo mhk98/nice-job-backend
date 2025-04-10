@@ -36,6 +36,10 @@ const sequelize = new Sequelize(
   // 'sql12772137', // Replace with your actual database name
   // 'sql12772137', // Replace with your actual database user
   // 'uIMTXIAnJR', // Replace with your actual database password
+
+  // 'freedb_job_db', // Replace with your actual database name
+  // 'freedb_nicesoftware', // Replace with your actual database user
+  // 'WB5nyj3@u6pmm@q', // Replace with your actual database password
   {
       // host:'82.112.226.90',
       
@@ -47,7 +51,7 @@ const sequelize = new Sequelize(
     pool: { max: 5, min: 0, idle: 10000 },
     logging: false,
     timezone: "+06:00",
-    port: 3306
+    port: 3307
     // port:25958
   }
 );
