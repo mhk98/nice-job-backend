@@ -12,7 +12,7 @@ const login = catchAsync(async (req, res) => {
 
   // Configure cookie options for token storage (optional: for API responses)
   const cookieOptions = {
-    // secure: process.env.NODE_ENV === "production", // Secure cookies in production
+    secure: process.env.NODE_ENV === "production", // Secure cookies in production
     httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
     sameSite: "strict", // Optional: Add for additional security
   };
