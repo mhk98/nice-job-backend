@@ -9,7 +9,7 @@ exports.generateToken = (userInfo) => {
       id: userInfo.id
     };
 
-    console.log("payload", payload);
+    // console.log("payload", payload);
 
     // Token generation with 24 hours expiration
     const token = jwt.sign(payload, process.env.TOKEN_SECRET
