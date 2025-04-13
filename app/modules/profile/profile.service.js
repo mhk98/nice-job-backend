@@ -7,6 +7,11 @@ const Profile = db.profile;
 
 
 const insertIntoDB = async (data) => {
+
+  const {image} = data;
+  if (!image) {
+    throw new ApiError(400, "Image required")
+  }
   const result = await Profile.create(data);
   return result
 };
@@ -129,7 +134,10 @@ const deleteIdFromDB = async (id) => {
 
 const updateOneFromDB = async (id, data) => {
  
-  
+  const {image} = data;
+  if (!image) {
+    throw new ApiError(400, "Image required")
+  }
   const result = await Profile.update(data,{
     where:{
       user_id:id

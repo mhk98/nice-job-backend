@@ -10,6 +10,10 @@ const JobCategory = db.jobCategory;
 const insertIntoDB = async (data) => {
 
   console.log(data)
+  const {image} = data;
+  if (!image) {
+    throw new ApiError(400, "Image required")
+  }
   const categoryData = await JobCategory.findOne({
     where: { id: data.category_id }
   });

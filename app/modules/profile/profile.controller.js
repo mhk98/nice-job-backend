@@ -275,7 +275,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
  
 
   // Prepare job profile data
-  const jobProfileData = {
+  const data = {
     name,
     title,
     location,
@@ -308,7 +308,7 @@ const insertIntoDB = catchAsync(async (req, res) => {
   // console.log("jobProfileData", jobProfileData);
 
   // Insert job profile into DB
-  const result = await ProfileService.insertIntoDB(jobProfileData);
+  const result = await ProfileService.insertIntoDB(data);
 
   // Send response
   sendResponse(res, {
