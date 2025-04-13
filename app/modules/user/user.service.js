@@ -52,8 +52,10 @@ const login = async (data) => {
 
 const register = async (data) => {
 
-  const {Email } = data;
- 
+  const {Email, image } = data;
+  if (!image) {
+    throw new ApiError(400, "Profile image required")
+  }
     const isUserExist = await User.findOne({
       where: { Email: Email },
     });
